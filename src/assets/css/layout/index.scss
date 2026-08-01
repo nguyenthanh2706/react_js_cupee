@@ -5,8 +5,8 @@
 @use 'fonts';
 
 /* mode */
-@use 'mode/base';
-@use 'mode/horizontal';
+@use 'menu-type/base';
+@use 'menu-type/horizontal';
 
 /* construct */
 @use 'construct/topbar';

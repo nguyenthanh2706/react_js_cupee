@@ -240,11 +240,19 @@
     "notRegistered": "未登録",
     "registerNow": "直ぐ登録"
   },
-  "email.exists": "無効なメールアドレスです。ご確認ください。",
-  "text.validOtp": "認証コードを正しく入力してください。",
-  "email.max": "メールを２５５文字以内で入力してください。",
-  "errors.invalid_reset_password_token": "認証コードを正しく入力してください。",
-  "auth.inactive": "アクセスが拒否されました。アカウントがロックされているか、またはまだ有効化されていません。",
+  "email": {
+    "exists": "無効なメールアドレスです。ご確認ください。",
+    "max": "メールを２５５文字以内で入力してください。"
+  },
+  "text": {
+    "validOtp": "認証コードを正しく入力してください。"
+  },
+  "errors": {
+    "invalid_reset_password_token": "認証コードを正しく入力してください。"
+  },
+  "auth": {
+    "inactive": "アクセスが拒否されました。アカウントがロックされているか、またはまだ有効化されていません。"
+  },
   "msgCommon": {
     "select": "選択",
     "confirmLogoutTitle": "ログアウトしてもよろしいでしょうか？",

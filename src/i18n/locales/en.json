@@ -241,11 +241,19 @@
     "notRegistered": "You have not registered",
     "registerNow": "Register now"
   },
-  "email.exists": "The email address is invalid. Please check again",
-  "text.validOtp": "Please enter the correct verification code.",
-  "email.max": "Please enter Email within 255 characters.",
-  "errors.invalid_reset_password_token": "Please enter the correct verification code.",
-  "auth.inactive": "Login denied. Your account is either disabled or not yet activated.",
+  "email": {
+    "exists": "The email address is invalid. Please check again",
+    "max": "Please enter Email within 255 characters."
+  },
+  "text": {
+    "validOtp": "Please enter the correct verification code."
+  },
+  "errors": {
+    "invalid_reset_password_token": "Please enter the correct verification code."
+  },
+  "auth": {
+    "inactive": "Login denied. Your account is either disabled or not yet activated."
+  },
   "msgCommon": {
     "select": "Select",
     "confirmLogoutTitle": "Are you sure you want to log out?",

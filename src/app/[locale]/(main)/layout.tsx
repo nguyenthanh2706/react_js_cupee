@@ -1,23 +1,14 @@
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import '@/app/globals.css';
 import { HeadTopbar } from '@/components/layouts/HeadTopbar';
 
-
-export default async function MainLayout({ children }: { children: React.ReactNode }) {
-    const messages = await getMessages();
-
+export default function MainLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="vi">
-        <body>
-        <NextIntlClientProvider messages={messages}>
-            <div className="layout-container layout-horizontal layout-light-menu">
+        <div className="layout-container layout-horizontal layout-light-menu">
+            <div className="layout-topbar">
                 <HeadTopbar />
-                <main className="layout-content-wrapper flex-1">{children}</main>
-                <footer>Footer</footer>
+                <div className="main-topbar"></div>
             </div>
-        </NextIntlClientProvider>
-        </body>
-        </html>
+            <main className="layout-content-wrapper flex-1">{children}</main>
+            <footer>Footer</footer>
+        </div>
     );
 }

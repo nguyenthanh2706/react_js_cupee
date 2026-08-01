@@ -242,11 +242,19 @@
     "notRegistered": "Chưa có tài khoản",
     "registerNow": "Đăng ký ngay"
   },
-  "email.exists": "Email không hợp lệ. Vui lòng kiểm tra lại",
-  "text.validOtp": "Vui lòng nhập đúng mã xác thực.",
-  "email.max": "Vui lòng nhập Email trong vòng 255 ký tự",
-  "errors.invalid_reset_password_token": "Mã OTP không hợp lệ. Vui lòng kiểm tra lại.",
-  "auth.inactive": "Truy cập bị từ chối. Tài khoản đã bị khóa hoặc chưa được kích hoạt.",
+  "email": {
+    "exists": "Email không hợp lệ. Vui lòng kiểm tra lại",
+    "max": "Vui lòng nhập Email trong vòng 255 ký tự"
+  },
+  "text": {
+    "validOtp": "Vui lòng nhập đúng mã xác thực."
+  },
+  "errors": {
+    "invalid_reset_password_token": "Mã OTP không hợp lệ. Vui lòng kiểm tra lại."
+  },
+  "auth": {
+    "inactive": "Truy cập bị từ chối. Tài khoản đã bị khóa hoặc chưa được kích hoạt."
+  },
   "msgCommon": {
     "select": "Chọn",
     "confirmLogoutTitle": "Bạn có chắc chắn muốn đăng xuất không?",

@@ -68,7 +68,7 @@ export function HeadTopbar() {
   }, [open]);
 
   return (
-    <div className="head-topbar bg-[#000000] text-white px-6">
+    <div className="head-topbar ">
       <div className="flex justify-end h-8 text-xs">
         <nav className="flex items-center space-x-4 text-white">
           <Link className="hover:underline" href="/">
