@@ -1,0 +1,109 @@
+.product-2d {
+    .customize {
+        padding: 0 135px 60px;
+        background-color: #faf9f5;
+
+        .t-breadcrumb {
+            background-color: inherit;
+            padding: 30px 0;
+        }
+
+        .product {
+            @apply flex gap-4 justify-between mb-16;
+
+            .left-item {
+                @apply w-6/12 pr-5;
+
+                .image-view {
+                    @apply w-full border border-gray-400;
+                }
+            }
+
+            .right-item {
+                @apply w-6/12 flex flex-col pl-5;
+
+                .product-name {
+                    @apply text-xl font-bold mb-3;
+                }
+
+                .product-price {
+                    @apply text-xl font-bold mb-5;
+
+                    color: #b26158;
+                }
+
+                .config-panel {
+                    @apply border border-gray-400 rounded;
+
+                    background: #fff;
+                    padding: 25px 25px 100px;
+                    height: calc(100vh - 500px);
+
+                    .p-tab{
+                        font-weight: 500;
+                    }
+
+                    .text-checked {
+                        color: var(--color-main);
+                    }
+
+                    .bg-checked {
+                        background-color: #f4f1ea;
+                    }
+
+                    .tab-style {
+                        @apply mb-8;
+                    }
+
+                    .tab-logo {
+                        @apply mb-8;
+
+                        .title {
+                            @apply flex flex-row justify-between font-bold mb-4 text-lg;
+
+                            .title-add {
+                                color: var(--color-main);
+                                cursor: pointer;
+                                text-decoration: underline;
+
+                                &:hover {
+                                    color: var(--color-gray-400);
+                                }
+                            }
+                        }
+                    }
+
+                    .tab-text {
+                        @apply mb-8;
+
+                        .title {
+                            @apply flex flex-row justify-between font-bold mb-4 text-lg;
+
+                            .title-add {
+                                color: var(--color-main);
+                                cursor: pointer;
+                                text-decoration: underline;
+
+                                &:hover {
+                                    color: var(--color-gray-400);
+                                }
+                            }
+                        }
+                    }
+
+                    .tab-color {
+                        @apply mb-8;
+                    }
+
+                    .btn-group{
+                        padding: 0 1.125rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .other-product {
+        padding: 0 135px 100px;
+    }
+}

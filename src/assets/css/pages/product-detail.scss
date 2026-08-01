@@ -1,0 +1,168 @@
+.product-detail {
+    padding: 75px 135px;
+
+    .detail {
+        @apply flex gap-4 justify-between mb-16;
+
+        .left-item {
+            @apply w-6/12 pr-5;
+
+            .image-view {
+                max-height: calc(100vh - 125px);
+                overflow: hidden;
+
+                .img-main-wrapper {
+                    position: relative;
+                    width: 100%;
+                    height: calc(100vh - 300px);
+                    overflow: hidden;
+                    background-color: #f0f0f0;
+                    text-align: center;
+
+                    .tag-customize {
+                        @apply flex flex-row items-center px-6 mb-1 py-3 rounded mr-1 whitespace-nowrap w-max absolute top-2 left-2;
+
+                        border: 1px solid #b26158;
+                        border-radius: 30px;
+                        background-color: #fff;
+                        font-weight: 200;
+                    }
+
+                    .img-main {
+                        border-radius: 4px;
+                        width: auto;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        display: inline-block;
+                    }
+                }
+
+                .p-galleria-thumbnail-items {
+                    .p-galleria-thumbnail-item {
+                        padding: 0 10px;
+
+                        .p-galleria-thumbnail {
+                            .img-item-wrapper {
+                                .img-item {
+                                    border-radius: 4px;
+                                    width: auto;
+                                    height: 120px;
+                                    object-fit: cover;
+                                    object-position: center;
+                                    display: inline-block;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .right-item {
+            @apply w-6/12 flex flex-col pl-5;
+
+            .product-name {
+                @apply text-xl font-bold mb-3;
+            }
+
+            .product-price {
+                @apply text-xl font-bold mb-5;
+
+                color: #b26158;
+            }
+
+            .rating-filter {
+                @apply mb-5;
+
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                padding: 2px 6px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #9c7b57;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                width: max-content;
+
+                &:hover {
+                    border-color: #9c7b57;
+                    background-color: #f9f6f2;
+                }
+            }
+
+            .ckeditor-content {
+                @apply mb-10;
+
+                display: -webkit-box;
+                -webkit-line-clamp: 5;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .see-detail {
+                @apply flex justify-end cursor-pointer hover:text-gray-400;
+
+                color: var(--color-main);
+                text-decoration: underline;
+            }
+
+            .product-info {
+                @apply font-bold mb-3;
+            }
+
+            .option-color {
+                @apply mb-3;
+
+                display: flex;
+                gap: 8px;
+
+                .option-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 6px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    background-color: #fff;
+                    transition:
+                        border-color 0.2s,
+                        box-shadow 0.2s;
+                    white-space: nowrap;
+
+                    &:hover {
+                        border-color: var(--color-main);
+                        box-shadow: 0 0 4px rgb(0 123 255 / 40%);
+                    }
+
+                    .img {
+                        width: 24px;
+                        height: 24px;
+                        object-fit: cover;
+                        border-radius: 2px;
+                    }
+
+                    .span {
+                        font-size: 14px;
+                        color: #333;
+                    }
+
+                    &.active {
+                        color: var(--color-main);
+                        border-color: var(--color-main);
+                    }
+                }
+            }
+
+            .quantity {
+                @apply mb-3;
+
+                .p-inputtext {
+                    width: 60px;
+                }
+            }
+        }
+    }
+}

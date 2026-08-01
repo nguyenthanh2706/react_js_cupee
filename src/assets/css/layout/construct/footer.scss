@@ -1,0 +1,14 @@
+.footer {
+    .info {
+        padding: 50px 135px 70px;
+        background-color: #faf9f5;
+    }
+
+    .coppy-right {
+        @apply text-center text-xs py-3;
+
+        background-color: #323231;
+        text-align: center;
+        color: #fff;
+    }
+}

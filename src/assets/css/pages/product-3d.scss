@@ -1,0 +1,81 @@
+.product-3d {
+    .customize {
+        padding: 0 135px 60px;
+        background-color: #faf9f5;
+
+        .t-breadcrumb {
+            background-color: inherit;
+            padding: 30px 0;
+        }
+
+        .setting-panel {
+            @apply flex flex-row justify-between mb-3;
+
+            .left-item {
+                .product-name {
+                    @apply text-base font-bold;
+                }
+
+                .product-price {
+                    @apply text-base font-bold;
+
+                    color: #b26158;
+                }
+            }
+        }
+
+        .preview{
+            display: flex;
+            height: calc(100vh - 123px);
+
+            .title{
+                @apply text-base text-center py-3 font-bold border-b border-gray-400;
+
+                background: #f0f0f0;
+            }
+
+            .left-item {
+                @apply w-1/2 h-full flex flex-col border border-gray-400 bg-white;
+
+                .canvas-3d {
+                    width: 100%;
+                    height: calc(100% - 65px);
+                    overflow: hidden;
+                }
+
+                .canvas-setting{
+                    @apply flex gap-2 w-full items-center border-t border-gray-400 px-3;
+
+                    height: 65px;
+
+                    .zoom{
+                        height: 40px;
+
+                        .p-inputtext{
+                            width: 70px;
+                        }
+                    }
+
+                    .btn-default{
+                        height: 40px;
+                    }
+                }
+
+            }
+
+            .right-item {
+                @apply w-1/2 h-full flex flex-col bg-white border-t border-r border-b border-gray-400;
+
+                .texture-setting{
+                    @apply flex items-center gap-3 justify-center border-t border-gray-400;
+
+                    height: 65px;
+                }
+            }
+        }
+    }
+
+    .other-product {
+        padding: 0 135px 100px;
+    }
+}

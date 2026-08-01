@@ -1,0 +1,100 @@
+.order-tracking{
+  padding: 70px 135px;
+
+  .tab-tracking{
+    .menu {
+      @apply flex items-center justify-center gap-3 mt-8 mb-16;
+    }
+
+    .item {
+      @apply rounded-lg w-full;
+
+      .search {
+        @apply w-full mb-16;
+
+        .input-search {
+          width: calc(100% - 100px);
+        }
+      }
+
+      .frame-product{
+        @apply border border-gray-300 rounded-md mb-7;
+
+        .detail{
+          @apply flex flex-col md:flex-row pt-5 px-5 relative;
+
+          .code{
+            @apply absolute text-xl font-bold top-5 right-5;
+          }
+
+          .list-products{
+            @apply w-full flex flex-col;
+
+            .product-item{
+              @apply flex flex-row justify-between w-full pb-5;
+
+              .left{
+                @apply w-[350px] h-[350px] flex items-center justify-center bg-[#e7e3da];
+
+                .img-show{
+                  @apply w-full h-full object-contain;
+                }
+              }
+
+              .right{
+                @apply flex flex-col  pl-5;
+
+                width: calc(100% - 380px);
+
+                .product-name {
+                  @apply font-bold mr-8;
+                }
+
+                .view-design{
+                  @apply text-xs;
+
+                  color: var(--color-main);
+                  text-decoration-line: underline;
+                  cursor: pointer;
+                }
+
+                .product-price {
+                  @apply font-bold mb-5;
+
+                  color: #b26158;
+                }
+
+                .quantity {
+                  @apply mb-5;
+
+                  .p-inputtext {
+                    width: 60px;
+                  }
+                }
+
+                .see-all{
+                  @apply text-base font-bold;
+
+                  color: var(--color-main);
+                  text-decoration-line: underline;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+
+        .button{
+          @apply flex justify-end items-center border-t border-gray-300 p-4 bg-[#f4f1ea];
+
+          &.btn-group{
+            .btn{
+              @apply py-3.5 px-7;
+            }
+
+          }
+        }
+      }
+    }
+  }
+}

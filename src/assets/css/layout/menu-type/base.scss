@@ -1,0 +1,25 @@
+@use '../variables' as *;
+
+.layout-container {
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+
+    &.layout-light-menu {
+        --menu-bg: var(--p-surface-0);
+        --root-menuitem-text-color: var(--p-surface-900);
+        --menuitem-icon-color: rgb(41 50 65 / 80%);
+        --menuitem-text-color: rgb(41 50 65 / 80%);
+        --submenu-item-hover-bg-color: var(--surface-hover);
+        --popup-submenu-item-hover-bg-color: var(--surface-hover);
+        --menu-shadow: 0px 10px 40px rgb(41 50 65 / 6%);
+    }
+
+    .layout-content-wrapper {
+        margin-top: 123px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+}

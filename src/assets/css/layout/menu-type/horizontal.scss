@@ -1,0 +1,32 @@
+@use '../variables' as *;
+
+.layout-container {
+    &.layout-horizontal {
+        .layout-topbar {
+            .main-topbar {
+                .layout-sidebar {
+                    .layout-menu-container {
+                        .layout-menu {
+                            li.layout-root-menuitem {
+                                border-radius: var(--border-radius);
+
+                                // disable text menu vertical
+                                > .layout-menuitem-root-text {
+                                    display: none;
+                                }
+
+                                > ul {
+                                    a {
+                                        .layout-menuitem-icon {
+                                            color: var(--popup-submenu-item-icon-color);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
