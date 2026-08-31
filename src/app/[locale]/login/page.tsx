@@ -46,7 +46,7 @@ export default function LoginPage() {
 
       <div className="pt-4 text-center border-t border-slate-200 dark:border-zinc-800">
         <Link
-          href="/"
+          href="/public"
           className="text-sm text-blue-600 hover:underline dark:text-blue-400"
         >
           👈 Quay về Trang chủ (Dùng Main Layout)

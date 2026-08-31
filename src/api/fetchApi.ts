@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { ApiOptions } from '@/interfaces/api';
-import { APP_TOKEN_NAME } from '@/utils/constants';
+import { useAuthStore } from '@/stores/authStore';
 import { toast } from '@primereact/ui/toaster';
 
 let isRefreshing: boolean = false;
@@ -24,7 +24,7 @@ export async function fetchApi<T = any>(
     t: (key: string, params?: any) => string,
     param?: string
 ) {
-    const token = Cookies.get(APP_TOKEN_NAME);
+    const token = useAuthStore.getState().token;
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const method = apiOptions.method ?? 'GET';
 
@@ -136,9 +136,9 @@ async function refreshAccessToken(
 
         const newToken = data?._data?.data?.access_token;
         if (newToken) {
-            let d = new Date();
+            const d = new Date();
             d.setUTCHours(23, 59, 59, 999);
-            Cookies.set(APP_TOKEN_NAME, newToken, { expires: d });
+            useAuthStore.getState().login(newToken, d);
             return newToken;
         }
         return null;
@@ -173,7 +173,7 @@ const handleError = (
                         description: t(message),
                         group: 'basic'
                     })
-                    Cookies.remove(APP_TOKEN_NAME);
+                    useAuthStore.getState().logout();
                     break;
             }
             break;
