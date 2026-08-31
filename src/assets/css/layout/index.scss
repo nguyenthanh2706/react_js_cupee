@@ -1,13 +1,13 @@
 /* config */
-@use 'variables';
-@use 'main';
-@use 'common';
-@use 'fonts';
+@import './variables.scss';
+@import './main.scss';
+@import './common.scss';
+@import './fonts.scss';
 
 /* mode */
-@use 'menu-type/base';
-@use 'menu-type/horizontal';
+@import './menu-type/base.scss';
+@import './menu-type/horizontal.scss';
 
 /* construct */
-@use 'construct/topbar';
-@use 'construct/footer';
+@import './construct/topbar.scss';
+@import './construct/footer.scss';

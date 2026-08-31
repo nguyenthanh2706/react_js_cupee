@@ -47,7 +47,6 @@
     "accountManagement": "Quản lý tài khoản",
     "searchProduct": "Tìm sản phẩm"
   },
-
   "introduceCompany": {
     "hero": {
       "videoNotSupported": "Trình duyệt của bạn không hỗ trợ thẻ video."
@@ -98,6 +97,7 @@
     }
   },
   "text": {
+    "validOtp": "Vui lòng nhập đúng mã xác thực.",
     "empty": "Trống",
     "no": "STT",
     "id": "ID",
@@ -126,6 +126,8 @@
     "time": "Giờ",
     "note": "Ghi chú",
     "uploadFailed": "Tải lên thất bại.",
+    "error": "Lỗi",
+    "systemError": "Lỗi hệ thống, vui lòng thử lại sau.",
     "uploadSuccess": "Tải lên thành công.",
     "invalidFileType": "Loại tệp không hợp lệ.",
     "fileTooLarge": "Tệp quá lớn.",
@@ -198,6 +200,7 @@
     "enterKeywords": "Nhập từ khóa để tìm kiếm"
   },
   "auth": {
+    "inactive": "Truy cập bị từ chối. Tài khoản đã bị khóa hoặc chưa được kích hoạt.",
     "invalid": "Email hoặc mật khẩu không hợp lệ. Vui lòng kiểm tra lại",
     "unauthorized": "Token không hợp lệ và không thể sử dụng.",
     "need_update_password": "Yêu cầu cập nhật mật khẩu.",
@@ -246,14 +249,8 @@
     "exists": "Email không hợp lệ. Vui lòng kiểm tra lại",
     "max": "Vui lòng nhập Email trong vòng 255 ký tự"
   },
-  "text": {
-    "validOtp": "Vui lòng nhập đúng mã xác thực."
-  },
   "errors": {
     "invalid_reset_password_token": "Mã OTP không hợp lệ. Vui lòng kiểm tra lại."
-  },
-  "auth": {
-    "inactive": "Truy cập bị từ chối. Tài khoản đã bị khóa hoặc chưa được kích hoạt."
   },
   "msgCommon": {
     "select": "Chọn",

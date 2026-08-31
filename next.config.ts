@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     experimental: {
         cssChunking: true,
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'api.custom-ec.supenient.vn',
+            },
+        ],
+    },
 };
 
 export default withNextIntl(nextConfig);

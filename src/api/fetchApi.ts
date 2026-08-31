@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { ApiOptions } from '@/interfaces/api';
 import { APP_TOKEN_NAME } from '@/utils/constants';
+import { toast } from '@primereact/ui/toaster';
 
 let isRefreshing: boolean = false;
 let isInvalid: boolean = false;
@@ -17,11 +18,10 @@ const processQueue = (error: any, token: string | null) => {
     failedQueue = [];
 };
 
-export async function useApi<T = any>(
+export async function fetchApi<T = any>(
     url: string,
     apiOptions: ApiOptions<T>,
     t: (key: string, params?: any) => string,
-    $showMessage: any,
     param?: string
 ) {
     const token = Cookies.get(APP_TOKEN_NAME);
@@ -49,7 +49,11 @@ export async function useApi<T = any>(
 
         if (!response.ok) {
             if (!resData) {
-                $showMessage('error', t('text.error'), t('text.systemError'));
+                toast.contrast({
+                    title: t('text.error'),
+                    description: t('text.systemError'),
+                    group: 'basic'
+                })
             }
             const code = resData?.code || response.status;
             const message = Array.isArray(resData?.messages)
@@ -57,19 +61,19 @@ export async function useApi<T = any>(
                 : resData?.messages?.message || resData?.message;
 
             if (code === 401 && message === 'token.expired' && !apiOptions._retried) {
-                return await handleRefreshing(url, apiOptions, t, $showMessage);
+                return await handleRefreshing(url, apiOptions, t);
             }
 
             if (code === 401 && message === 'token.invalid') {
                 isInvalid = true;
-                handleError(code, message, t, $showMessage);
+                handleError(code, message, t);
                 return { data: null, error: { response: { _data: resData } } };
             } else {
                 isInvalid = false;
             }
 
             if (!isInvalid) {
-                handleError(code, message, t, $showMessage);
+                handleError(code, message, t);
             }
 
             return { data: null, error: { response: { _data: resData } } };
@@ -86,7 +90,6 @@ const handleRefreshing = async (
     url: string,
     apiOptions: ApiOptions,
     t: (key: string, params?: any) => string,
-    $showMessage: any
 ): Promise<any> => {
     try {
         if (isRefreshing) {
@@ -94,11 +97,10 @@ const handleRefreshing = async (
                 failedQueue.push({ resolve, reject });
             })
                 .then(async () => {
-                    return await useApi(
+                    return await fetchApi(
                         url,
                         { ...apiOptions, _retried: true },
-                        t,
-                        $showMessage
+                        t
                     );
                 })
                 .catch((err) => {
@@ -106,15 +108,14 @@ const handleRefreshing = async (
                 });
         }
         isRefreshing = true;
-        const newToken = await refreshAccessToken(apiOptions, t, $showMessage);
+        const newToken = await refreshAccessToken(apiOptions, t);
         if (newToken) {
             isRefreshing = false;
             processQueue(null, newToken);
-            return await useApi(
+            return await fetchApi(
                 url,
                 { ...apiOptions, _retried: true },
-                t,
-                $showMessage
+                t
             );
         }
     } catch (_error) {
@@ -124,15 +125,13 @@ const handleRefreshing = async (
 
 async function refreshAccessToken(
     apiOptions: ApiOptions,
-    t: (key: string, params?: any) => string,
-    $showMessage: any
+    t: (key: string, params?: any) => string
 ): Promise<string | null> {
     try {
-        const { data } = await useApi(
+        const { data } = await fetchApi(
             '/customer/refresh',
             { ...apiOptions, _retried: false, method: 'POST' },
-            t,
-            $showMessage
+            t
         );
 
         const newToken = data?._data?.data?.access_token;
@@ -151,8 +150,7 @@ async function refreshAccessToken(
 const handleError = (
     status: number,
     message: string,
-    t: (key: string, params?: any) => string,
-    $showMessage: any
+    t: (key: string, params?: any) => string
 ): void => {
     switch (status) {
         case 401:
@@ -160,13 +158,21 @@ const handleError = (
                 case 'token.expired':
                     break;
                 case 'auth.invalid':
-                    $showMessage('error', t('text.error'), t(message));
+                    toast.contrast({
+                        title: t('text.error'),
+                        description: t(message),
+                        group: 'basic'
+                    })
                     break;
                 case 'token.invalid':
                 case 'auth.unauthorized':
                 case 'token.blacklist':
                 default:
-                    $showMessage('error', t('text.error'), t(message));
+                    toast.contrast({
+                        title: t('text.error'),
+                        description: t(message),
+                        group: 'basic'
+                    })
                     Cookies.remove(APP_TOKEN_NAME);
                     break;
             }
@@ -182,12 +188,20 @@ const handleError = (
         case 500:
             switch (message) {
                 case 'auth.inactive':
-                    $showMessage('error', t('text.error'), message ? t(message) : t('auth.inactive'));
+                    toast.contrast({
+                        title: t('text.error'),
+                        description: message ? t(message) : t('auth.inactive'),
+                        group: 'basic'
+                    })
                     break;
                 case 'errors.invalid_reset_password_token':
                     break;
                 default:
-                    $showMessage('error', t('text.error'), message ? t(message) : t('text.systemError'));
+                    toast.contrast({
+                        title: t('text.error'),
+                        description: message ? t(message) : t('auth.systemError'),
+                        group: 'basic'
+                    })
                     break;
             }
     }

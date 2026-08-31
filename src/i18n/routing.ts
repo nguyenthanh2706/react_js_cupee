@@ -1,5 +1,5 @@
-import { defineRouting } from 'next-intl/routing';
-import { createNavigation } from 'next-intl/navigation';
+import {defineRouting} from 'next-intl/routing';
+import {createNavigation} from 'next-intl/navigation';
 
 export const routing = defineRouting({
     locales: ['vi', 'en', 'ja'],
@@ -7,4 +7,8 @@ export const routing = defineRouting({
 });
 
 // Export Link, redirect, usePathname, useRouter chính chủ của next-intl hỗ trợ đa ngôn ngữ
-export const { Link, redirect, usePathname, useRouter } = createNavigation(routing);
+interface LinkProps {
+    onClick?: void
+}
+
+export const {Link, redirect, usePathname, useRouter} = createNavigation(routing);

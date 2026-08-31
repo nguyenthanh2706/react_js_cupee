@@ -97,6 +97,7 @@
     }
   },
   "text": {
+    "validOtp": "Please enter the correct verification code.",
     "empty": "Empty",
     "no": "No.",
     "id": "ID",
@@ -125,6 +126,8 @@
     "time": "Time",
     "note": "Note",
     "uploadFailed": "Upload failed",
+    "error": "Error",
+    "systemError": "System error, please try again later.",
     "uploadSuccess": "Uploaded successfully.",
     "invalidFileType": "Invalid file type.",
     "fileTooLarge": "File is too large.",
@@ -197,6 +200,7 @@
     "enterKeywords": "Enter keywords to search"
   },
   "auth": {
+    "invalid_reset_password_token": "Please enter the correct verification code.",
     "invalid": "The email address or password is invalid. Please check again.",
     "unauthorized": "The token is invalid and cannot be used.",
     "need_update_password": "Password update is required.",
@@ -244,15 +248,6 @@
   "email": {
     "exists": "The email address is invalid. Please check again",
     "max": "Please enter Email within 255 characters."
-  },
-  "text": {
-    "validOtp": "Please enter the correct verification code."
-  },
-  "errors": {
-    "invalid_reset_password_token": "Please enter the correct verification code."
-  },
-  "auth": {
-    "inactive": "Login denied. Your account is either disabled or not yet activated."
   },
   "msgCommon": {
     "select": "Select",
