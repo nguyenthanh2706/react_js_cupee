@@ -1,7 +1,14 @@
-import Cookies from 'js-cookie';
-import { ApiOptions } from '@/interfaces/api';
 import { useAuthStore } from '@/stores/authStore';
 import { toast } from '@primereact/ui/toaster';
+
+interface ApiOptions<T = unknown> {
+    data?: Record<string, any> | null;
+    method?: HttpMethod;
+    timeout?: number;
+    _retried?: boolean;
+    headers?: Record<string, string>;
+}
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 let isRefreshing: boolean = false;
 let isInvalid: boolean = false;
@@ -22,7 +29,7 @@ export async function fetchApi<T = any>(
     url: string,
     apiOptions: ApiOptions<T>,
     t: (key: string, params?: any) => string,
-    param?: string
+    params?: string
 ) {
     const token = useAuthStore.getState().token;
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
