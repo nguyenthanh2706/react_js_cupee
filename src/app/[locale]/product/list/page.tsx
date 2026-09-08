@@ -1,9 +1,10 @@
 'use client';
 
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslations, useLocale} from 'next-intl';
 import Image from 'next/image';
 import {Breadcrumb} from '@/components/common/Breadcrumb';
+import {Pagination} from '@/components/common/Pagination';
 import ProductListFilter from '@/app/[locale]/product/list/filter';
 import ProductListMain from '@/app/[locale]/product/list/main';
 import {PER_PAGE_LIST} from '@/utils/constants';
@@ -35,10 +36,9 @@ export default function ProductListPage() {
     const t = useTranslations();
     const locale = useLocale();
 
-    // useState
     const [optionsFilter, setOptionsFilter] = useState<OptionsFilter>({
         q: '',
-        category: null, // selectedCategory,
+        category: null,
         isCustomizable: null,
         priceRange: null,
         tagColor: null,
@@ -57,13 +57,12 @@ export default function ProductListPage() {
         items: []
     });
 
-
     const updateDataFilter = (newFilter: OptionsFilter) => {
         setProductData(prev => ({...prev, isLoading: true}));
         setOptionsFilter(newFilter);
         setPagination(prev => ({...prev, page: 1}));
     };
-    // mount , update
+
     useEffect(() => {
         const fetchList = async () => {
             setProductData({isLoading: true, items: []});
@@ -106,7 +105,7 @@ export default function ProductListPage() {
             setPagination(prev => ({...prev, total: data?.total ?? 0}));
         };
         fetchList();
-    }, [optionsFilter, pagination.page, pagination.limit, t]);
+    }, [optionsFilter, pagination.page, pagination.limit, t, locale]);
 
     return (
         <div>
@@ -132,13 +131,13 @@ export default function ProductListPage() {
 
                         <ProductListMain isLoading={productData.isLoading} listData={productData.items}/>
 
-                        {/*<Pagination*/}
-                        {/*    page={pagination.page}*/}
-                        {/*    limit={pagination.limit}*/}
-                        {/*    total={pagination.total}*/}
-                        {/*    onChangePage={(newPage: number) => setPagination(prev => ({ ...prev, page: newPage }))}*/}
-                        {/*    onChangeLimit={(newLimit: number) => setPagination(prev => ({ ...prev, limit: newLimit, page: 1 }))}*/}
-                        {/*/>*/}
+                        <Pagination
+                            page={pagination.page}
+                            limit={pagination.limit}
+                            total={pagination.total}
+                            onChangePage={(newPage: number) => setPagination(prev => ({ ...prev, page: newPage }))}
+                            onChangeLimit={(newLimit: number) => setPagination(prev => ({ ...prev, limit: newLimit, page: 1 }))}
+                        />
                     </>
             </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
@@ -25,46 +25,40 @@ interface Product {
 export default function ProductListMain({ isLoading = false, listData = null }: Props) {
     const t = useTranslations();
 
-    const items = useMemo(() => {
-        return (listData || []).map((item) => {
-            const tags = (item?.tags || [])
-                .filter((tag: any) => tag.role === SPECIAL)
-                .map((tag: any) => ({
-                    code: tag?.code ?? '',
-                    name: tag?.name ?? '',
-                    note: tag?.note ?? '',
-                    status: tag?.status ?? 0
-                }));
+    const items = (listData || []).map((item) => {
+        const tags = (item?.tags || [])
+            .filter((tag: any) => tag.role === SPECIAL)
+            .map((tag: any) => ({
+                code: tag?.code ?? '',
+                name: tag?.name ?? '',
+                note: tag?.note ?? '',
+                status: tag?.status ?? 0
+            }));
 
-            return {
-                code: item?.code ?? '',
-                name: item?.name ?? '',
-                image: item?.path_image_resize ?? null,
-                price: item?.sale_price ?? 0,
-                is_customizable: Boolean(item?.is_3d_custom || item?.is_customizable == 1),
-                tags
-            } as Product;
-        });
-    }, [listData]);
+        return {
+            code: item?.code ?? '',
+            name: item?.name ?? '',
+            image: item?.path_image_resize ?? null,
+            price: item?.sale_price ?? 0,
+            is_customizable: Boolean(item?.is_3d_custom || item?.is_customizable == 1),
+            tags
+        } as Product;
+    });
 
     return (
         <div className="list-data">
-            {/* Hiển thị Loading */}
             {isLoading && (
                 <div className="flex justify-center w-full my-4">
                     <Loading className="w-8 h-8 inline-block" color="black" icon="spinning-circles" />
                 </div>
             )}
-            
-            {/* Hiển thị Không có dữ liệu */}
+
             {!isLoading && items.length === 0 && (
                 <div>{t('tableBox.noSearchData')}</div>
             )}
             
-            {/* Hiển thị Danh sách sản phẩm */}
             {!isLoading && items.length > 0 && items.map((product) => (
-                // Chuyển div @click thành thẻ <Link> chuẩn SEO của next-intl
-                <Link 
+                <Link
                     key={product.code} 
                     href={`/product/${product.code}`}
                     className="item block cursor-pointer"

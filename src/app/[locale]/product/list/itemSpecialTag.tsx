@@ -40,62 +40,45 @@ export default function ItemSpecialTag({ selectedItem, onUpdateSpecialTag }: Pro
         loadMore: false
     });
 
-    const getQueryString = (page: number, limit: number): string => {
-        const queryGetSpecialTag = `filters[role]=1`;
-        let query = [`page=${page}`, `limit=${limit}`, `lang=${locale}`, queryGetSpecialTag];
-        return query.join('&');
-    };
-
-    const getListTag = async (page: number, currentList: TagItem[]) => {
-        // Trick nhỏ để lách ESLint: Đẩy hàm này thành Async hoàn toàn (chạy sau Effect)
-        await Promise.resolve();
-        
-        setLoading(true);
-        const params = getQueryString(page, state.limit);
-        const { data } = await fetchProduct((key: string) => t(key as any)).listTag(params);
-        
-        // Đảm bảo dataOptions luôn là mảng
-        const dataOptions = Array.isArray(data) ? data : (data?.data ?? []);
-        const hasMore = dataOptions.length > 0;
-        
-        const newItems = dataOptions.map((item: RawTag) => ({
-            data: item
-        }));
-
-        setState(prev => ({
-            ...prev,
-            list: [...currentList, ...newItems],
-            page: page,
-            loadMore: hasMore
-        }));
-        
-        setLoading(false);
-    };
-
-    const getMoreTag = async () => {
-        const nextPage = state.page + 1;
-        await getListTag(nextPage, state.list);
+    const getMoreTag = () => {
+        setState(prev => ({ ...prev, page: prev.page + 1 }));
     };
 
     const selectTag = (index: number) => {
         const clickedItemData = state.list[index].data;
         
-        // Nếu click vào mục đang được chọn thì bỏ chọn
         if (selectedItem === clickedItemData.code) {
             onUpdateSpecialTag(null);
         } else {
-            // Ngược lại thì chọn mục mới
             onUpdateSpecialTag(clickedItemData);
         }
     };
 
-    // Tự động fetch data khi component được render (Tab được mở)
     useEffect(() => {
-        if (state.list.length === 0 && !loading) {
-            getListTag(1, []);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        const fetchList = async () => {
+            setLoading(true);
+            const query = [`page=${state.page}`, `limit=${state.limit}`, `lang=${locale}`, `filters[role]=1`];
+            const params = query.join('&');
+            const { data } = await fetchProduct((key: string) => t(key as any)).listTag(params);
+
+            const dataOptions = Array.isArray(data) ? data : (data?.data ?? []);
+            const hasMore = dataOptions.length > 0;
+
+            const newItems = dataOptions.map((item: RawTag) => ({
+                data: item
+            }));
+
+            setState(prev => ({
+                ...prev,
+                list: [...prev.list, ...newItems],
+                loadMore: hasMore
+            }));
+
+            setLoading(false);
+        };
+
+        fetchList();
+    }, [locale, state.limit, state.page, t]);
 
     return (
         <div className="flex flex-wrap gap-2 mt-3">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import InputSearch from '@/components/common/InputSearch';
 import { TabsRoot, TabsList, TabsTab, TabsPanels, TabsPanel } from '@primereact/ui/tabs';
@@ -43,13 +43,9 @@ interface Props {
 export default function ProductListFilter({ dataFilter = defaultFilter, onUpdateDataFilter }: Props) {
     const t = useTranslations();
 
-    // --- State ---
     const [hiddenFilter, setHiddenFilter] = useState<boolean>(true);
     const [activeTab, setActiveTab] = useState<string>('0');
 
-    // Không còn dùng ref nữa, sử dụng Controlled Component pattern
-
-    // --- Options ---
     const sortOptionsPrice = [
         { name: t('productList.filter.heightToShort'), code: DESC },
         { name: t('productList.filter.shortToHeight'), code: ASC }
@@ -68,7 +64,6 @@ export default function ProductListFilter({ dataFilter = defaultFilter, onUpdate
         { name: t('productList.filter.isNotCustomize'), value: 2 }
     ];
 
-    // --- Handlers ---
     const emitUpdate = (newFilter: OptionsFilter) => {
         if (onUpdateDataFilter) {
             onUpdateDataFilter(newFilter);
@@ -81,8 +76,6 @@ export default function ProductListFilter({ dataFilter = defaultFilter, onUpdate
 
     const showFilter = () => {
         setHiddenFilter(!hiddenFilter);
-        // Khi mở ra, tự động trigger tab hiện tại
-        onTabChange(activeTab);
     };
 
     const removeAllFilter = () => {
@@ -113,8 +106,6 @@ export default function ProductListFilter({ dataFilter = defaultFilter, onUpdate
     const onTabChange = (newValue: string) => {
         setActiveTab(newValue);
     };
-
-
 
     // Events từ component con bắn lên
     const changeSelectCategory = (value: any) => {

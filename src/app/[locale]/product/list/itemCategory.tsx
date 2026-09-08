@@ -40,60 +40,45 @@ export default function ItemCategory({ selectedItem, onUpdateCategory }: Props) 
         loadMore: false
     });
 
-    const getQueryString = (page: number, limit: number): string => {
-        const query = [`page=${page}`, `limit=${limit}`, `lang=${locale}`];
-        return query.join('&');
-    };
-
-    const getListCategory = async (page: number, currentList: CategoryItem[]) => {
-        // Trick nhỏ để lách ESLint: Đẩy hàm này thành Async hoàn toàn (chạy sau Effect)
-        await Promise.resolve();
-        
-        setLoading(true);
-        const params = getQueryString(page, state.limit);
-        const { data } = await fetchProduct((key: string) => t(key as any)).listCategory(params);
-        
-        // Đảm bảo dataOptions luôn là mảng (Xử lý trường hợp API trả về object phân trang có chứa thuộc tính data)
-        const dataOptions = Array.isArray(data) ? data : (data?.data ?? []);
-        const hasMore = dataOptions.length > 0;
-        
-        const newItems = dataOptions.map((item: RawCategory) => ({
-            data: item
-        }));
-
-        setState(prev => ({
-            ...prev,
-            list: [...currentList, ...newItems],
-            page: page,
-            loadMore: hasMore
-        }));
-        
-        setLoading(false);
-    };
-
-    const getMoreCategory = async () => {
-        const nextPage = state.page + 1;
-        await getListCategory(nextPage, state.list);
+    const getMoreCategory = () => {
+        setState(prev => ({ ...prev, page: prev.page + 1 }));
     };
 
     const selectCategory = (index: number) => {
         const clickedItemData = state.list[index].data;
         
-        // Nếu click vào mục đang được chọn thì bỏ chọn
         if (selectedItem === clickedItemData.code) {
             onUpdateCategory(null);
         } else {
-            // Ngược lại thì chọn mục mới
             onUpdateCategory(clickedItemData);
         }
     };
 
     useEffect(() => {
-        if (state.list.length === 0 && !loading) {
-            getListCategory(1, []);
-        }
-    }, []);
+        const fetchList = async () => {
+            setLoading(true);
+            const query = [`page=${state.page}`, `limit=${state.limit}`, `lang=${locale}`];
+            const params = query.join('&');
+            const { data } = await fetchProduct((key: string) => t(key as any)).listCategory(params);
 
+            const dataOptions = Array.isArray(data) ? data : (data?.data ?? []);
+            const hasMore = dataOptions.length > 0;
+
+            const newItems = dataOptions.map((item: RawCategory) => ({
+                data: item
+            }));
+
+            setState(prev => ({
+                ...prev,
+                list: [...prev.list, ...newItems],
+                loadMore: hasMore
+            }));
+
+            setLoading(false);
+        };
+
+        fetchList();
+    }, [locale, state.limit, state.page, t])
     return (
         <div className="flex flex-wrap gap-2 mt-3">
             {loading && state.list.length === 0 ? (
