@@ -1,3 +1,9 @@
+.p-paginator-content{
+    .p-paginator-page.p-paginator-page-selected{
+        background: var(--color-main) !important;
+        color: #fff;
+    }
+}
 /* Ẩn PrimeUI license banner */
 #p-license-host {
     display: none !important;

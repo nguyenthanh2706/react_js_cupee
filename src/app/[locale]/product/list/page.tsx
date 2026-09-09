@@ -132,9 +132,9 @@ export default function ProductListPage() {
                         <ProductListMain isLoading={productData.isLoading} listData={productData.items}/>
 
                         <Pagination
-                            page={pagination.page}
-                            limit={pagination.limit}
-                            total={pagination.total}
+                            page={1}
+                            limit={PER_PAGE_LIST[0]}
+                            total={160}
                             onChangePage={(newPage: number) => setPagination(prev => ({ ...prev, page: newPage }))}
                             onChangeLimit={(newLimit: number) => setPagination(prev => ({ ...prev, limit: newLimit, page: 1 }))}
                         />
