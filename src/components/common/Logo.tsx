@@ -8,7 +8,7 @@ export function Logo({ className }: { className?: string }): JSX.Element {
     const t = useTranslations();
     return (
         <div className={`logo ${className || ''}`}>
-            <Image src={"/layout/logo.png"} alt={"logo"} className={"object-contain"} width={142} height={50} />
+            <Image src={"/layout/logo.png"} alt={"logo"} className={"object-contain"} width={142} height={50} style={{ width: 'auto', height: 'auto' }} />
             <p className={"uppercase"}>  {t('layout.textUnderLogo')}</p>
         </div>
     )

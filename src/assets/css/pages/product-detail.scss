@@ -8,51 +8,24 @@
             @apply w-6/12 pr-5;
 
             .image-view {
-                max-height: calc(100vh - 125px);
+                height: calc(100vh - 125px);
                 overflow: hidden;
-
-                .img-main-wrapper {
-                    position: relative;
-                    width: 100%;
-                    height: calc(100vh - 300px);
-                    overflow: hidden;
-                    background-color: #f0f0f0;
-                    text-align: center;
-
-                    .tag-customize {
-                        @apply flex flex-row items-center px-6 mb-1 py-3 rounded mr-1 whitespace-nowrap w-max absolute top-2 left-2;
-
-                        border: 1px solid #b26158;
-                        border-radius: 30px;
-                        background-color: #fff;
-                        font-weight: 200;
-                    }
-
-                    .img-main {
-                        border-radius: 4px;
-                        width: auto;
+                .p-gallery-content{
+                    .p-gallery-item{
+                        width: 100%;
                         height: 100%;
-                        object-fit: cover;
-                        object-position: center;
-                        display: inline-block;
-                    }
-                }
-
-                .p-galleria-thumbnail-items {
-                    .p-galleria-thumbnail-item {
-                        padding: 0 10px;
-
-                        .p-galleria-thumbnail {
-                            .img-item-wrapper {
-                                .img-item {
-                                    border-radius: 4px;
-                                    width: auto;
-                                    height: 120px;
-                                    object-fit: cover;
-                                    object-position: center;
-                                    display: inline-block;
-                                }
-                            }
+                        .tag-customize {
+                            @apply flex flex-row items-center px-6 mb-1 py-3 rounded mr-1 whitespace-nowrap w-max absolute top-2 left-2;
+                            border: 1px solid #b26158;
+                            border-radius: 30px;
+                            background-color: #fff;
+                            font-weight: 200;
+                        }
+                        .img-main {
+                            border-radius: 4px;
+                            object-fit: cover;
+                            object-position: center;
+                            display: inline-block;
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import InputSearch from '@/components/common/InputSearch';
 import { TabsRoot, TabsList, TabsTab, TabsPanels, TabsPanel } from '@primereact/ui/tabs';
+import { OptionsFilter, DEFAULT_FILTER } from './types';
 
 import ItemCategory from './itemCategory';
 import ItemTagColor from './itemTagColor';
@@ -12,28 +13,6 @@ import ItemSpecialTag from './itemSpecialTag';
 // --- Constants ---
 const ASC = 'asc';
 const DESC = 'desc';
-
-export interface OptionsFilter {
-    q?: string | null;
-    category?: string | null;
-    isCustomizable?: number | null;
-    priceRange?: string | null;
-    tagColor?: string | null;
-    tagSpecial?: string | null;
-    sortPrice?: string | null;
-    sortProduct?: string | null;
-}
-
-const defaultFilter: OptionsFilter = {
-    q: '',
-    category: null,
-    isCustomizable: null,
-    priceRange: null,
-    tagColor: null,
-    tagSpecial: null,
-    sortPrice: null,
-    sortProduct: null
-};
 
 interface Props {
     dataFilter?: OptionsFilter;
@@ -79,8 +58,7 @@ export default function ProductListFilter({ dataFilter = defaultFilter, onUpdate
     };
 
     const removeAllFilter = () => {
-        const resetFilter = { ...defaultFilter };
-        emitUpdate(resetFilter);
+        emitUpdate({ ...DEFAULT_FILTER });
     };
 
     const handleSelectSortPrice = (code: string) => {

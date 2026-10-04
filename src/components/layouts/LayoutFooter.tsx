@@ -75,7 +75,7 @@ async function FollowUsAsync({ t }: { t: any }) {
     return (
         <ul className="text-sm space-y-4">
             <li className="flex flex-row items-center text-base font-bold">
-                <Image src="/layout/follow-us.png" width={20} height={20} className="object-contain mr-1" alt="follow us" />
+                <Image src="/layout/follow-us.png" width={20} height={20} className="object-contain mr-1" alt="follow us" style={{ width: 'auto', height: 'auto' }} />
                 <span>{t('companyInfor.followUs')}</span>
             </li>
             {platforms?.map((platform: any, index: number) => (
@@ -101,7 +101,7 @@ function AboutUs({ t }: { t: any }) {
     return (
         <ul className="text-sm space-y-4">
             <li className="flex flex-row items-center text-base font-bold">
-                <Image src="/layout/about-us.png" width={20} height={20} className="object-contain mr-1" alt="about us" />
+                <Image src="/layout/about-us.png" width={20} height={20} className="object-contain mr-1" alt="about us" style={{ width: 'auto', height: 'auto' }} />
                 <span>{t('companyInfor.aboutUs')}</span>
             </li>
             <li className="pl-8">
@@ -122,7 +122,7 @@ function SupportMenu({ t }: { t: any }) {
     return (
         <ul className="text-sm space-y-4">
             <li className="flex flex-row items-center text-base font-bold">
-                <Image src="/layout/support.png" width={20} height={20} className="object-contain mr-1" alt="support" />
+                <Image src="/layout/support.png" width={20} height={20} className="object-contain mr-1" alt="support" style={{ width: 'auto', height: 'auto' }} />
                 <span>{t('companyInfor.support')}</span>
             </li>
             <li className="pl-8">
@@ -143,7 +143,7 @@ function AccountMenu({ t }: { t: any }) {
     return (
         <ul className="text-sm space-y-4">
             <li className="flex flex-row items-center text-base font-bold">
-                <Image src="/layout/user.png" width={20} height={20} className="object-contain mr-1" alt="account" />
+                <Image src="/layout/user.png" width={20} height={20} className="object-contain mr-1" alt="account" style={{ width: 'auto', height: 'auto' }} />
                 <span>{t('companyInfor.account')}</span>
             </li>
             <li className="pl-8">

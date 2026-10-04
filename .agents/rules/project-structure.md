@@ -3,6 +3,7 @@
 ## Thư mục chính
 ```
 src/
+├── assets/          # Images, fonts, icons
 ├── api/              # API wrappers (fetchApi.ts, fetchProduct.ts, ...)
 ├── app/[locale]/     # App Router pages (mỗi route là một thư mục)
 │   ├── product/      # Feature: Product
