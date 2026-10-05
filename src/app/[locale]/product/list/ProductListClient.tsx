@@ -1,20 +1,19 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Pagination } from '@/components/common/Pagination';
-import { Loading } from '@/components/common/Loading';
 import ProductListFilter from './filter';
 import ProductListMain from './main';
 import { useProductList } from './useProductList';
 import { ProductItem } from './types';
 
-interface ProductListContentProps {
+interface ProductListClientProps {
     initialItems: ProductItem[];
     initialTotal: number;
 }
 
-function ProductListContent({ initialItems, initialTotal }: ProductListContentProps) {
+export default function ProductListClient({ initialItems, initialTotal }: ProductListClientProps) {
     const t = useTranslations();
     const { filter, pagination, productList, updateFilter, changePage, changeLimit } = useProductList({
         initialItems,
@@ -58,22 +57,3 @@ function ProductListContent({ initialItems, initialTotal }: ProductListContentPr
     );
 }
 
-interface ProductListClientProps {
-    initialItems: ProductItem[];
-    initialTotal: number;
-}
-
-export default function ProductListClient({ initialItems, initialTotal }: ProductListClientProps) {
-
-    return (
-            <div className="product-list">
-                <Suspense fallback={
-                    <div className="flex justify-center items-center min-h-[400px]">
-                        <Loading className="w-10 h-10" color="black" icon="spinning-circles" />
-                    </div>
-                }>
-                    <ProductListContent initialItems={initialItems} initialTotal={initialTotal} />
-                </Suspense>
-            </div>
-    );
-}

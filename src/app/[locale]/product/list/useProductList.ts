@@ -67,7 +67,7 @@ export function useProductList({ initialItems = [], initialTotal = 0 }: UseProdu
 
         fetchList();
         return () => controller.abort();
-    }, [searchParams, locale, t]);
+    }, [searchParams, locale, t, initialItems, productList.items, filter, page, limit]);
 
     const updateFilter = (newFilter: OptionsFilter) =>
         router.push(pathname + buildUrlParams(newFilter, 1, limit));

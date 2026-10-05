@@ -1,5 +1,3 @@
-// Pure utility functions — không có 'use client', dùng được ở cả Server và Client
-
 import { OptionsFilter, PaginationType, ProductItem } from './types';
 import { PER_PAGE_LIST } from '@/utils/constants';
 
@@ -49,7 +47,6 @@ export function buildQueryString(filter: OptionsFilter, pagination: PaginationTy
     return query.join('&');
 }
 
-// Server Component dùng — searchParams là plain object
 export function parseFilterFromSearchParams(
     searchParams: Record<string, string | string[] | undefined>
 ): OptionsFilter {
@@ -69,7 +66,6 @@ export function parseFilterFromSearchParams(
     };
 }
 
-// Client Component dùng — searchParams là URLSearchParams
 export function parseFilterFromUrl(searchParams: URLSearchParams): OptionsFilter {
     return {
         q: searchParams.get('q') || null,

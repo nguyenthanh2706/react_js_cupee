@@ -19,7 +19,7 @@ interface Props {
     onUpdateDataFilter?: (filter: OptionsFilter) => void;
 }
 
-export default function ProductListFilter({ dataFilter = defaultFilter, onUpdateDataFilter }: Props) {
+export default function ProductListFilter({ dataFilter = DEFAULT_FILTER, onUpdateDataFilter }: Props) {
     const t = useTranslations();
 
     const [hiddenFilter, setHiddenFilter] = useState<boolean>(true);

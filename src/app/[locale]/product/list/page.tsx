@@ -5,12 +5,49 @@ import ProductListClient from './ProductListClient';
 import {parseFilterFromSearchParams, buildQueryString, mapToProductItem} from './utils';
 import Image from "next/image";
 import {Breadcrumb} from "@/components/common/Breadcrumb";
-import React from "react";
+import React, {Suspense} from 'react';
+import {Loading} from "@/components/common/Loading";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 type Params = Promise<{ locale: string }>;
 
-export default async function ProductListPage({params, searchParams}: {
+export default async function ProductList({params, searchParams}: {
+    params: Params;
+    searchParams: SearchParams;
+}) {
+    const t = await getTranslations();
+    return (
+        <div>
+            <div className="banner">
+                <Image
+                    src="/layout/background.webp"
+                    className="img-banner"
+                    alt="customize"
+                    width={1920}
+                    height={400}
+                />
+                <Breadcrumb
+                    className="t-breadcrumb"
+                    model={[
+                        {label: t('breadcrumb.homePage'), url: '/introduce/company-info'},
+                        {label: t('breadcrumb.listProduct')}
+                    ]}
+                />
+            </div>
+            <div className="product-list">
+                <Suspense fallback={
+                    <div className="flex justify-center items-center min-h-[400px]">
+                        <Loading className="w-10 h-10" color="black" icon="spinning-circles"/>
+                    </div>
+                }>
+                    <ProductListPage params={params} searchParams={searchParams}/>
+                </Suspense>
+            </div>
+        </div>
+    );
+}
+
+async function ProductListPage({params, searchParams}: {
     params: Params;
     searchParams: SearchParams;
 }) {
@@ -30,26 +67,11 @@ export default async function ProductListPage({params, searchParams}: {
 
     return (
         <div>
-            <div className="banner">
-                <Image
-                    src="/layout/background.webp"
-                    className="img-banner"
-                    alt="customize"
-                    width={1920}
-                    height={400}
-                />
-                <Breadcrumb
-                    className="t-breadcrumb"
-                    model={[
-                        {label: t('breadcrumb.homePage'), url: '/introduce/company-info'},
-                        {label: t('breadcrumb.listProduct')}
-                    ]}
-                />
-            </div>
             <ProductListClient
                 initialItems={initialItems}
                 initialTotal={initialTotal}
             />
         </div>
-    );
+    )
+        ;
 }
