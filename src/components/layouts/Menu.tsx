@@ -11,7 +11,9 @@ export function Menu() {
     const [token, setToken] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        setToken(Cookies.get(APP_TOKEN_NAME));
+        Promise.resolve().then(() => {
+            setToken(Cookies.get(APP_TOKEN_NAME));
+        });
     }, []);
 
     const sideMenuDefault = {

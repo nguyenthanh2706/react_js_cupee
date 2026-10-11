@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { fetchProduct } from '@/api/fetchProduct';
@@ -26,7 +26,7 @@ export function useProductList({ initialItems = [], initialTotal = 0 }: UseProdu
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const filter = parseFilterFromUrl(searchParams);
+    const filter = useMemo(() => parseFilterFromUrl(searchParams), [searchParams]);
     const page = Number(searchParams.get('page')) || 1;
     const limit = Number(searchParams.get('limit')) || PER_PAGE_LIST[0];
 
@@ -67,7 +67,8 @@ export function useProductList({ initialItems = [], initialTotal = 0 }: UseProdu
 
         fetchList();
         return () => controller.abort();
-    }, [searchParams, locale, t, initialItems, productList.items, filter, page, limit]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, locale, t, initialItems, filter, page, limit]);
 
     const updateFilter = (newFilter: OptionsFilter) =>
         router.push(pathname + buildUrlParams(newFilter, 1, limit));

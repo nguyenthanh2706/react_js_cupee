@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLayout} from '@/context/LayoutContext';
 import {Link} from '@/i18n/routing';
 import {usePathname} from 'next/navigation';
@@ -47,6 +47,9 @@ export function MenuItem({item, index, root = false, parentItemKey = null}: Menu
             // Nếu menu đang mở -> Bấm click sẽ đóng (gán key về parentItemKey)
             // Nếu menu đang đóng -> Bấm click sẽ mở (gán key về itemKey)
             setActiveMenuItem(isActiveMenu ? parentItemKey : itemKey);
+        } else {
+            // Nếu là item cuối cùng, đóng cái dropdown lại
+            setActiveMenuItem(null);
         }
     };
     // 💡 SỰ KIỆN 4: Tự động đổi trạng thái khi đổi URL trang web

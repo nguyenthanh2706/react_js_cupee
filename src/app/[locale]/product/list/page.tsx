@@ -1,15 +1,21 @@
 import {getTranslations} from 'next-intl/server';
 import {fetchProduct} from '@/api/fetchProduct';
 import {PER_PAGE_LIST} from '@/utils/constants';
-import ProductListClient from './ProductListClient';
+import ProductListClient from './productListClient';
 import {parseFilterFromSearchParams, buildQueryString, mapToProductItem} from './utils';
 import Image from "next/image";
 import {Breadcrumb} from "@/components/common/Breadcrumb";
 import React, {Suspense} from 'react';
 import {Loading} from "@/components/common/Loading";
+import type {Metadata} from "next";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 type Params = Promise<{ locale: string }>;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const t = await getTranslations();
+    return { title: t('layout.menu.product') };
+}
 
 export default async function ProductList({params, searchParams}: {
     params: Params;
