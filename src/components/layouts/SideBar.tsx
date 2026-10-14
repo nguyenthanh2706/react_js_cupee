@@ -9,7 +9,7 @@ export function SideBar() {
     return (
         <div className="layout-sidebar">
             <div className="sidebar-header">
-                <Link className="cursor-pointer" href={'/introduce/company-info'}>
+                <Link className="cursor-pointer" href={'/introduce/company'}>
                     <Logo></Logo>
                 </Link>
             </div>

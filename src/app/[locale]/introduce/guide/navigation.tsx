@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import type { Section } from './types';
 import { mapListMenu } from './types';
 
@@ -32,30 +32,24 @@ export default function GuideNavigation({
     className = ''
 }: Props) {
     const listMenu = useMemo(() => mapListMenu(listGuide), [listGuide]);
-    const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
+    // Mở sẵn các node cha của mục đang active (khi vào trực tiếp bằng URL slug)
+    const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>(() =>
+        activeCode
+            ? Object.fromEntries(getParentCodes(activeCode, listMenu).map((code) => [code, true]))
+            : {}
+    );
 
-    useEffect(() => {
-        if (activeCode) {
-            const parents = getParentCodes(activeCode, listMenu);
-            if (parents.length > 0) {
-                setExpandedKeys((prev) => {
-                    const next = { ...prev };
-                    for (const p of parents) {
-                        next[p] = true;
-                    }
-                    return next;
-                });
-            }
-        }
-    }, [activeCode, listMenu]);
+    const handleToggleExpand = (code: string) => {
+        setExpandedKeys((prev) => ({
+            ...prev,
+            [code]: !prev[code]
+        }));
+    };
 
-    const handleItemClick = (item: Section, hasChildren: boolean) => {
+    const handleSelect = (item: Section, hasChildren: boolean) => {
         onSelectSection(item);
         if (hasChildren) {
-            setExpandedKeys((prev) => ({
-                ...prev,
-                [item.code]: !prev[item.code]
-            }));
+            handleToggleExpand(item.code);
         }
     };
 
@@ -70,22 +64,37 @@ export default function GuideNavigation({
                     <div className="p-panelmenu-item-content">
                         <button
                             type="button"
-                            className={`item-menu w-full text-left flex items-center justify-between ${isActive ? 'item-active' : ''}`}
-                            onClick={() => handleItemClick(subItem, hasChildren)}
+                            className={`item-menu w-full text-left flex items-center justify-between transition-colors duration-200 ${
+                                isActive ? 'item-active' : ''
+                            }`}
+                            onClick={() => handleSelect(subItem, hasChildren)}
                         >
                             <span className="font-semibold">
                                 {subItem.idList} . {subItem.title}
                             </span>
                             {hasChildren && (
                                 <i
-                                    className={`pi ${isExpanded ? 'pi-chevron-down' : 'pi-chevron-right'} text-xs ml-2`}
+                                    className={`pi pi-chevron-down text-xs ml-2 transition-transform duration-300 ${
+                                        isExpanded ? 'rotate-180' : ''
+                                    }`}
                                 />
                             )}
                         </button>
                     </div>
-                    {hasChildren && isExpanded && (
-                        <div className="p-panelmenu-content pl-3">
-                            <ul className="list-none p-0 m-0">{renderSubItems(subItem.items!)}</ul>
+
+                    {hasChildren && (
+                        <div
+                            className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                                isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                            }`}
+                        >
+                            <div className="overflow-hidden">
+                                <div className="p-panelmenu-content pl-4">
+                                    <ul className="p-panelmenu-root-list list-none p-0 m-0">
+                                        {renderSubItems(subItem.items!)}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </li>
@@ -106,25 +115,37 @@ export default function GuideNavigation({
                             <div className="p-panelmenu-header-content">
                                 <button
                                     type="button"
-                                    className={`item-menu w-full text-left flex items-center justify-between ${isActive ? 'item-active' : ''}`}
-                                    onClick={() => handleItemClick(item, hasChildren)}
+                                    className={`item-menu w-full text-left flex items-center justify-between transition-colors duration-200 ${
+                                        isActive ? 'item-active' : ''
+                                    }`}
+                                    onClick={() => handleSelect(item, hasChildren)}
                                 >
                                     <span className="font-semibold">
                                         {item.idList} . {item.title}
                                     </span>
                                     {hasChildren && (
                                         <i
-                                            className={`pi ${isExpanded ? 'pi-chevron-down' : 'pi-chevron-right'} text-xs ml-2`}
+                                            className={`pi pi-chevron-down text-xs ml-2 transition-transform duration-300 ${
+                                                isExpanded ? 'rotate-180' : ''
+                                            }`}
                                         />
                                     )}
                                 </button>
                             </div>
 
-                            {hasChildren && isExpanded && (
-                                <div className="p-panelmenu-content">
-                                    <ul className="list-none p-0 m-0">
-                                        {renderSubItems(item.items!)}
-                                    </ul>
+                            {hasChildren && (
+                                <div
+                                    className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                                        isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                                    }`}
+                                >
+                                    <div className="overflow-hidden">
+                                        <div className="p-panelmenu-content pl-2">
+                                            <ul className="p-panelmenu-root-list list-none p-0 m-0">
+                                                {renderSubItems(item.items!)}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>

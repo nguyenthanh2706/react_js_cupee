@@ -24,8 +24,8 @@ export default async function GuideDetailPage({ params }: { params: Params }) {
                 <Breadcrumb
                     className="t-breadcrumb"
                     model={[
-                        { label: t('breadcrumb.homePage'), url: '/introduce/company-info' },
-                        { label: t('breadcrumb.introduce'), url: '/introduce/company-info' },
+                        { label: t('breadcrumb.homePage'), url: '/introduce/company' },
+                        { label: t('breadcrumb.introduce'), url: '/introduce/company' },
                         { label: t('breadcrumb.guide') }
                     ]}
                 />

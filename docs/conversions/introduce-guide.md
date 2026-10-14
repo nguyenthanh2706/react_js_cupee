@@ -61,10 +61,12 @@ src/
      - `src/app/[locale]/introduce/guide/page.tsx`
      - `src/app/[locale]/introduce/guide/[name]/page.tsx`
    - Cả 2 route cùng chia sẻ `GuideLayout`.
+   - Khi click menu chỉ đổi state `guideSelected` cục bộ (như tab thông thường), không gọi `router.push` để tránh re-render/chuyển trang không cần thiết vì dữ liệu đã có đủ. Route `[name]/page.tsx` vẫn giữ để phục vụ truy cập trực tiếp bằng URL.
 3. **HTML Sanitization**:
    - Dùng `dangerouslySetInnerHTML` đồng bộ với module `policy` hiện tại của project.
 4. **Navigation Menu**:
-   - Giữ nguyên các class name `.p-panelmenu*` để kế thừa trọn vẹn style từ `src/assets/css/pages/introduce-guide.scss`.
+   - Chuẩn hóa cấu trúc DOM khớp 100% với `introduce-guide.scss` (các class `.p-panelmenu*`, `.item-menu`, `.item-active`, `p-panelmenu-item`).
+   - Tích hợp smooth accordion animation (bằng CSS grid-rows transition) và xoay icon chevron mượt mà.
    - Hỗ trợ menu cây đa cấp đệ quy, tự động mở rộng node cha khi chọn mục con.
 
 ---
@@ -80,4 +82,6 @@ src/
 - [x] Bước 7: Tạo `types.ts` chứa interface và các hàm helper cây đệ quy
 - [x] Bước 8: Xây dựng `content.tsx`, `navigation.tsx`, `guideLayout.tsx`
 - [x] Bước 9: Xây dựng Server Components `page.tsx` và `[name]/page.tsx`
-- [x] Bước 10: Tự review (TypeScript types chặt chẽ, Next.js 16 async params, không sót directive Vue)
+- [x] Bước 10: Xóa sạch các file .vue cũ (`index.vue`, `[name].vue`, `content.vue`, `navigation.vue`)
+- [x] Bước 11: Tự review (TypeScript types chặt chẽ, Next.js 16 async params, không sót directive Vue)
+

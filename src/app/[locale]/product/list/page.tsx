@@ -35,7 +35,7 @@ export default async function ProductList({params, searchParams}: {
                 <Breadcrumb
                     className="t-breadcrumb"
                     model={[
-                        {label: t('breadcrumb.homePage'), url: '/introduce/company-info'},
+                        {label: t('breadcrumb.homePage'), url: '/introduce/company'},
                         {label: t('breadcrumb.listProduct')}
                     ]}
                 />

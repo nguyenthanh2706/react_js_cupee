@@ -41,7 +41,7 @@ export default function ProductDetailPage({params}: { params: Promise<{ id: stri
                 <Breadcrumb
                     className="t-breadcrumb"
                     model={[
-                        {label: t('breadcrumb.homePage'), url: '/introduce/company-info'},
+                        {label: t('breadcrumb.homePage'), url: '/introduce/company'},
                         {label: t('breadcrumb.listProduct'), url: '/product/list'},
                         {label: t('breadcrumb.detailProduct')}
                     ]}

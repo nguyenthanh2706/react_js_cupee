@@ -105,7 +105,7 @@ function AboutUs({ t }: { t: any }) {
                 <span>{t('companyInfor.aboutUs')}</span>
             </li>
             <li className="pl-8">
-                <Link className="hover:underline" href={'/introduce/company-info'}>
+                <Link className="hover:underline" href={'/introduce/company'}>
                     {t('layout.menu.introduce')}
                 </Link>
             </li>

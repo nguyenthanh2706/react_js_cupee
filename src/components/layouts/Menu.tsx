@@ -23,7 +23,7 @@ export function Menu() {
                 items: [
                     {
                         label: t('introduce.nav.companyInfo'),
-                        to: `/introduce/company-info`,
+                        to: `/introduce/company`,
                     },
                     {
                         label: t('introduce.nav.policy'),

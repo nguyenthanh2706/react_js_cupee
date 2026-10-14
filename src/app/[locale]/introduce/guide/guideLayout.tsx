@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { useRouter } from '@/i18n/routing';
+import { useState, useMemo } from 'react';
 import type { Section } from './types';
 import { mapListMenu, findSectionBySlug } from './types';
 import GuideNavigation from './navigation';
@@ -13,33 +12,14 @@ interface Props {
 }
 
 export default function GuideLayout({ listGuide, initialSlug }: Props) {
-    const router = useRouter();
     const listMenu = useMemo(() => mapListMenu(listGuide), [listGuide]);
 
-    const initialSection = useMemo(() => {
-        if (initialSlug) {
-            const found = findSectionBySlug(listMenu, initialSlug);
-            if (found) return found;
-        }
-        return listMenu[0] ?? null;
-    }, [listMenu, initialSlug]);
-
-    const [guideSelected, setGuideSelected] = useState<Section | null>(initialSection);
-
-    useEffect(() => {
-        if (initialSlug) {
-            const found = findSectionBySlug(listMenu, initialSlug);
-            if (found) {
-                setGuideSelected(found);
-            }
-        }
-    }, [initialSlug, listMenu]);
+    const [guideSelected, setGuideSelected] = useState<Section | null>(
+        () => findSectionBySlug(listMenu, initialSlug) ?? listMenu[0] ?? null
+    );
 
     const handleSelectSection = (section: Section) => {
         setGuideSelected(section);
-        if (section.slug) {
-            router.push(`/introduce/guide/${section.slug}`, { scroll: false });
-        }
     };
 
     return (
