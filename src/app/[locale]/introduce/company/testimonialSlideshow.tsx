@@ -14,12 +14,10 @@ interface TestimonialItem {
 }
 
 interface Props {
-    isLoading?: boolean;
     testimonials?: Review[];
 }
 
 export default function TestimonialSlideshow({
-    isLoading = false,
     testimonials: rawTestimonials = []
 }: Props) {
     const t = useTranslations('introduceCompany.testimonials');

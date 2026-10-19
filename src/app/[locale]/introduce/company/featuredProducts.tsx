@@ -3,23 +3,16 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
-import {
-    CarouselRoot,
-    CarouselContent,
-    CarouselItem,
-    CarouselPrev,
-    CarouselNext
-} from '@primereact/ui/carousel';
+import {CarouselRoot, CarouselContent, CarouselItem, CarouselPrev, CarouselNext} from '@primereact/ui/carousel';
 import ListCategory from './list/listCategory';
 import ProductCard from './productCard';
 import type { FeaturedProduct, LocalProductCard } from './types';
 
 interface Props {
-    isLoading?: boolean;
     featuredProducts?: FeaturedProduct[];
 }
 
-export default function FeaturedProducts({ isLoading = false, featuredProducts = [] }: Props) {
+export default function FeaturedProducts({ featuredProducts = [] }: Props) {
     const t = useTranslations();
     const router = useRouter();
 
@@ -37,7 +30,7 @@ export default function FeaturedProducts({ isLoading = false, featuredProducts =
             } else if (width < 1024) {
                 setSlidesPerPage(3);
             } else {
-                setSlidesPerPage(4);
+                setSlidesPerPage(6);
             }
         };
 
@@ -100,18 +93,13 @@ export default function FeaturedProducts({ isLoading = false, featuredProducts =
                 <ListCategory onSelectCategory={handleSelectCategory} />
             </div>
 
-            {isLoading ? (
-                <div className="text-center text-gray-500 py-12">
-                    <i className="pi pi-spin pi-spinner text-3xl mb-3" />
-                    <p>{t('text.loading') || 'Đang tải...'}</p>
-                </div>
-            ) : filteredProducts.length === 0 ? (
+            {filteredProducts.length === 0 ? (
                 <div className="text-center text-gray-500 py-12">
                     <i className="pi pi-inbox text-4xl mb-3" />
                     <p>{t('text.noData') || 'Không có sản phẩm'}</p>
                 </div>
             ) : (
-                <div className="relative px-4 max-w-[1240px] mx-auto">
+                <div className="relative px-4  mx-auto">
                     <CarouselRoot
                         slidesPerPage={slidesPerPage}
                         loop
@@ -126,7 +114,7 @@ export default function FeaturedProducts({ isLoading = false, featuredProducts =
                             <CarouselContent className="products-carousel">
                                 {filteredProducts.map((product) => (
                                     <CarouselItem key={product.code} value={product.code}>
-                                        <div className="flex justify-center h-full p-2">
+                                        <div className="flex justify-center h-full p-1">
                                             <ProductCard
                                                 product={product}
                                                 onViewDetails={handleViewProduct}

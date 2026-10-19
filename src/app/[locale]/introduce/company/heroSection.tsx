@@ -15,7 +15,7 @@ interface Props {
     mediaItems?: MediaItem[];
 }
 
-export default function HeroSection({ isLoading = false, mediaItems = [] }: Props) {
+export default function HeroSection({mediaItems = [] }: Props) {
     const t = useTranslations('introduceCompany.hero');
 
     const items = (mediaItems || []).map((item) => ({
@@ -30,10 +30,16 @@ export default function HeroSection({ isLoading = false, mediaItems = [] }: Prop
     }
 
     return (
-        <section className="relative">
+        <section className="relative mb-10">
             <div className="overflow-hidden relative">
                 <CarouselRoot slidesPerPage={1} loop spacing={0} className="w-full">
-                    <CarouselContent>
+                    <CarouselContent
+                        style={{ pointerEvents: 'none' }}
+                        onPointerDown={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                        onPointerMove={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                        onPointerUp={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                        onWheel={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                    >
                         {items.map((item, index) => (
                             <CarouselItem key={`${item.code}-${index}`} value={index}>
                                 <div className="aspect-[21/9] overflow-hidden relative bg-gray-200 w-full h-[517px]">

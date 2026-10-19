@@ -8,6 +8,8 @@ trigger: model_decision
 
 Quy trình chuẩn chỉ bắt buộc thực hiện theo từng bước tuần tự khi chuyển đổi code từ Vue (Vue 2/3, Nuxt) sang React/Next.js 16 App Router.
 
+> **YÊU CẦU KỸ NĂNG BẮT BUỘC (`@react-patterns`):** Trước khi thiết kế và viết code React, **BẮT BUỘC phải đọc và kích hoạt skill `@react-patterns`** tại `.agents/skills/react-patterns/SKILL.md` để đảm bảo toàn bộ mã nguồn chuyển đổi tuân thủ chuẩn mực thiết kế Component, Custom Hooks, State Management, React 19 Patterns và tránh các Anti-Patterns.
+
 ---
 
 ## BƯỚC 1: Phân Tích Toàn Diện Mã Nguồn Vue (Deep Analysis)
@@ -58,9 +60,9 @@ Dưới đây là checklist các trường hợp phải đặt câu hỏi làm r
 
 ---
 
-## BƯỚC 3: Đối Chiếu Cấu Trúc Dự Án (Project Structure Rules)
+## BƯỚC 3: Đối Chiếu Cấu Trúc Dự Án & Kiến Trúc Component (`@react-patterns`)
 
-Tổ chức code đầu ra bám sát nghiêm ngặt quy chuẩn trong `.agents/rules/project-structure.md`:
+Tổ chức code đầu ra bám sát nghiêm ngặt quy chuẩn trong `.agents/rules/project-structure.md` kết hợp với nguyên tắc thiết kế trong `@react-patterns` (`.agents/skills/react-patterns/SKILL.md`):
 
 1. **Phân bổ file theo cấu trúc chuẩn:**
    - **Page entry**: `src/app/[locale]/[feature]/page.tsx` (mặc định là Server Component, dùng `getTranslations()`).
@@ -70,12 +72,21 @@ Tổ chức code đầu ra bám sát nghiêm ngặt quy chuẩn trong `.agents/r
    - **Global Store**: Đặt trong `src/stores/[feature]Store.ts` (dùng Zustand).
    - **Utils**: Đặt trong `src/utils/`.
 
-2. **Quy tắc phân định Server Component vs Client Component (Next.js 16):**
+2. **Quy tắc phân định Server Component vs Client Component (Next.js 16 & `@react-patterns`):**
    - Mặc định giữ là **Server Component** để tối ưu SEO, fetch data server, và giảm bundle size.
    - Chỉ thêm `'use client'` khi component có tương tác: `useState`, `useEffect`, `useRef`, event handlers (`onClick`, `onChange`).
    - Áp dụng **Composition / Slot Pattern** (`{children}`): Đẩy Client Component làm vỏ bọc bên ngoài (Layout/Container), nhét Server Component vào bên trong qua `children` để không làm mất lợi thế SSR.
 
-3. **Quy tắc SCSS & Styling:**
+3. **Áp dụng nguyên tắc thiết kế từ `@react-patterns`:**
+   - **Phân loại rõ trách nhiệm Component**: Tách biệt *Server Component* (fetch/static), *Client Component* (interactivity), *Presentational* (chỉ nhận props hiển thị UI) và *Container* (quản lý state/logic). Mỗi component chỉ đảm nhận 1 trách nhiệm duy nhất (Single Responsibility), chia nhỏ thay vì viết 1 file Vue khổng lồ sang 1 file React khổng lồ.
+   - **Tách Custom Hooks**: Khi chuyển đổi từ Vue Mixins, Composables hoặc logic lặp lại (fetch, debounce, form, localStorage), phải tách thành Custom Hook (`use...`) theo chuẩn Hook Rules.
+   - **Lựa chọn State Placement hợp lý**:
+     - State đơn lẻ trong 1 component -> `useState` / `useReducer`.
+     - State chia sẻ cha-con gần -> Lift state up.
+     - State chia sẻ trong 1 cụm cây component phức tạp (Tabs, Accordion, Dropdown) -> `Context` / **Compound Components Pattern**.
+     - State toàn cục -> Zustand (`src/stores/`).
+
+4. **Quy tắc SCSS & Styling:**
    - Tuân thủ rule trong `AGENTS.md`: SCSS import phải có `./` và đuôi `.scss` (ví dụ: `@import './tên-file.scss';`).
    - Giữ nguyên các class name tương ứng để kế thừa style cũ mà không làm vỡ giao diện.
 
@@ -108,19 +119,20 @@ Trước khi bắt tay vào code hoặc song song với quá trình chuyển đ�
 
 ## BƯỚC 5: Thực Thi Chuyển Đổi (Implementation & Syntax Mapping)
 
-Áp dụng skill `react-patterns` và bảng quy đổi chuẩn:
+Áp dụng nghiêm ngặt skill `@react-patterns` (`.agents/skills/react-patterns/SKILL.md` - bao gồm *React 19 Patterns*, *Composition Patterns*, *TypeScript Patterns*) và bảng quy đổi chuẩn:
 
-| Cú pháp Vue | Chuyển đổi sang React / Next.js | Lưu ý |
+| Cú pháp Vue | Chuyển đổi sang React / Next.js | Lưu ý (`@react-patterns`) |
 | :--- | :--- | :--- |
 | `v-if` / `v-else-if` / `v-else` | Toán tử ba ngôi `condition ? <A /> : <B />` hoặc `condition && <A />` | Tránh `0 && <A />` (bị in ra số 0) |
-| `v-for="(item, index) in list"` | `list.map((item, index) => <Comp key={item.id} />)` | Luôn có `key` duy nhất, hạn chế dùng `index` |
+| `v-for="(item, index) in list"` | `list.map((item) => <Comp key={item.id} />)` | **Anti-pattern**: Không dùng `index` làm `key`, luôn dùng stable unique ID |
 | `v-model="text"` | `value={text} onChange={(e) => setText(e.target.value)}` | Controlled component |
-| `computed: { fullName() { ... } }` | Derived state trực tiếp: `const fullName = ...;` (hoặc `useMemo` nếu tính toán nặng) | Không lạm dụng `useEffect` cho derived state |
-| `watch` / `mounted` | `useEffect` | **Không** gọi `setState` đồng bộ trong `useEffect`. **Không** dùng `await Promise.resolve()`. Khởi tạo `loading = true` ngay trong `useState(true)` nếu fetch khi mount. |
-| `methods: { handleClick() }` | `const handleClick = useCallback(...)` hoặc function thường | Dùng `useCallback` khi truyền xuống con |
-| `<slot />` (Default Slot) | `{children}` (Slot Pattern) | Khai báo `children: ReactNode` trong `Props` |
-| `<slot name="header" />` (Named Slot) | Prop dạng JSX: `header={<Header />}` | Truyền qua prop thông thường |
-| `$emit('submit', data)` | Callback prop: `onSubmit(data)` | Props down, events up |
+| `computed: { fullName() { ... } }` | Derived state trực tiếp: `const fullName = ...;` (hoặc `useMemo` nếu tính toán nặng) | **Anti-pattern**: Không dùng `useEffect` để đồng bộ derived state |
+| `watch` / `mounted` | `useEffect` (dọn dẹp cleanup khi unmount) | **Không** gọi `setState` đồng bộ trong `useEffect`. **Không** dùng `await Promise.resolve()`. Khởi tạo `loading = true` ngay trong `useState(true)` nếu fetch khi mount. |
+| `methods: { handleClick() }` | Event handler (`MouseEventHandler`, v.v.) hoặc `useCallback` | Tập trung viết pure components (tận dụng React 19 Compiler) |
+| `<slot />` (Default Slot) | `{children}` (Slot Pattern) | Khai báo `children: ReactNode` trong `interface Props` |
+| `<slot name="header" />` (Named Slot) | Prop dạng JSX: `header={<Header />}` hoặc **Compound Components** | Ưu tiên Compound Components cho UI phức tạp (Tabs, Dropdown, Modal) |
+| `$emit('submit', data)` | Callback prop: `onSubmit(data)` | Nguyên tắc: **Props down, events up** |
+| Mixins / Composables | Custom Hooks (`use...`) | Chỉ gọi Hooks ở top-level, giữ nguyên thứ tự mỗi lần render |
 | `$t('key')` | `getTranslations()` (Server) hoặc `useTranslations()` (Client) | Import từ `next-intl` |
 | `$router.push('/path')` | `const router = useRouter()` | Import từ `@/i18n/routing` |
 | PrimeVue Components | PrimeReact Components | `@primereact/ui`, class `pi pi-*` |
@@ -136,7 +148,12 @@ Trước khi bắt tay vào code hoặc song song với quá trình chuyển đ�
 2. **Checklist kiểm tra trước khi hoàn tất:**
    - [ ] **Xóa sạch file `.vue`**: Đã xóa toàn bộ file `.vue` của feature vừa chuyển đổi.
    - [ ] **Sót cú pháp Vue**: Đã loại bỏ hoàn toàn các directive `v-`, `@`, `:`, `$refs`, `v-html` không an toàn.
-   - [ ] **TypeScript Types**: Mỗi component đều có `interface Props` rõ ràng, không dùng `any` bừa bãi.
+   - [ ] **Tuân thủ `@react-patterns` & Chống Anti-Patterns**:
+     - Không có Giant Component (đã chia nhỏ các component con hợp lý).
+     - Không Prop Drilling quá sâu (sử dụng Context hoặc Composition khi cần).
+     - Không lạm dụng `useEffect` cho những việc có thể xử lý ở Server Component hoặc event handler.
+     - Không dùng `index` của mảng làm `key` khi render danh sách.
+   - [ ] **TypeScript Patterns (`@react-patterns`)**: Dùng `interface` cho Component Props, `type` cho Unions/Complex types, định nghĩa chuẩn `ReactNode`, `MouseEventHandler`, `RefObject<Element>`, không dùng `any`.
    - [ ] **Next.js 16 Compliance**: `params` trong `page.tsx` là `Promise<{ locale: string }>` và được `await`. Phân định `'use client'` chuẩn xác.
    - [ ] **SCSS Imports**: Đúng định dạng `@import './[file].scss';`.
    - [ ] **Cập nhật docs**: Cập nhật trạng thái hoàn thành vào file `docs/conversions/[feature-name].md`.

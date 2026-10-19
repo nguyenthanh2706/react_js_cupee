@@ -29,26 +29,23 @@ export default function ListCategory({ onSelectCategory }: Props) {
     const [loadMore, setLoadMore] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const fetchCategories = useCallback(async (targetPage: number) => {
-        setLoading(true);
-        const params = `page=${targetPage}&limit=5&lang=${locale}`;
-        const { data } = await fetchProduct(t).listCategory(params);
-        const dataOptions: RawCategory[] = data?.data ?? [];
-
-        setLoadMore(dataOptions.length > 0);
-        setList((prev) => [
-            ...prev,
-            ...dataOptions.map((item) => ({
-                checked: false,
-                data: item
-            }))
-        ]);
-        setLoading(false);
-    }, [locale, t]);
-
     useEffect(() => {
-        fetchCategories(1);
-    }, [fetchCategories]);
+        const fetchCategories = async () => {
+            const params = `page=${page}&limit=5&lang=${locale}`;
+            const { data } = await fetchProduct(t).listCategory(params);
+            const dataOptions: RawCategory[] = data?.data ?? [];
+            setLoadMore(dataOptions.length > 0);
+            setList((prev) => [
+                ...prev,
+                ...dataOptions.map((item) => ({
+                    checked: false,
+                    data: item
+                }))
+            ]);
+            setLoading(false);
+        };
+        fetchCategories();
+    }, [page, locale, t]);
 
     const handleSelectCategory = (clickedItem: CategoryItem) => {
         const nextChecked = !clickedItem.checked;
@@ -57,7 +54,6 @@ export default function ListCategory({ onSelectCategory }: Props) {
             checked: item.data.code === clickedItem.data.code ? nextChecked : false
         }));
         setList(nextList);
-
         if (nextChecked) {
             onSelectCategory?.(clickedItem.data);
         } else {
@@ -65,10 +61,9 @@ export default function ListCategory({ onSelectCategory }: Props) {
         }
     };
 
-    const handleGetMore = async () => {
-        const nextPage = page + 1;
-        setPage(nextPage);
-        await fetchCategories(nextPage);
+    const handleGetMore = () => {
+        setLoading(true);
+        setPage((prev) => prev + 1);
     };
 
     return (
